@@ -16,7 +16,7 @@ void file_read(char* dst, const char* src) {
 union uni64 {
     uint64_t u64;
     uint32_t u32[2];
-    char c[8];
+    char* s;
     void (*fn)(union uni64);
 };
 struct token {
@@ -66,22 +66,14 @@ union uni64* hashtable_provide_str(const char* src) {
     return hashtable_provide(src, strlen(src));
 }
 
-void testfn(union uni64 x) {
-    printf("testfn: %lu\n", x.u64);
-}
+
 
 int main() {
     static char text_data[file_capacity];
 
     file_read(text_data, "data.txt");
 
-    hashtable_provide_str("test01")->u64 = 123;
-    hashtable_provide_str("test02")->u64 = 456;
-    hashtable_provide_str("test01")->u64 = 789;
-    hashtable_provide_str("test02")->fn = testfn;
-
-    printf("test01: %lu\n", hashtable_provide_str("test01")->u64);
-    hashtable_provide_str("test02")->fn(*hashtable_provide_str("test01"));
+    
 
     return 0;
 }
