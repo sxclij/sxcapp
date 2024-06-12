@@ -1,0 +1,6 @@
+#include <stdio.h>
+
+int main() {
+    printf("good morning world.\n");
+    return 0;
+}
