@@ -25,12 +25,11 @@ struct token {
 };
 
 struct hashtable hashtable;
-struct hashtable_table {
-    struct token key;
-    uni64 value;
-};
 struct hashtable {
-    struct hashtable_table table[hashtable_capacity];
+    struct hashtable_table {
+        struct token key;
+        uni64 value;
+    } table[hashtable_capacity];
     char data[hashtable_capacity];
     uint32_t data_size;
 };
