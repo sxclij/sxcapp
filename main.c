@@ -49,14 +49,10 @@ struct sxcscript_token {
     const char* data;
     int size;
 };
-union sxcscript_node_val {
-    int label_i;
-    int literal;
-};
 struct sxcscript_node {
     enum sxcscript_kind kind;
     struct sxcscript_token* token;
-    union sxcscript_node_val val;
+    int val;
 };
 struct sxcscript_label {
     struct sxcscript_token* token;
@@ -72,6 +68,7 @@ struct sxcscript {
     struct sxcscript_token token[sxcscript_compile_capacity];
     struct sxcscript_node node[sxcscript_compile_capacity];
     struct sxcscript_label label[sxcscript_compile_capacity];
+    union sxcscript_mem* global_begin;
     union sxcscript_mem* inst_begin;
     union sxcscript_mem* data_begin;
     int label_size;
