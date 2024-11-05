@@ -1,5 +1,12 @@
 #include <unistd.h>
 
+void global_update() {
+}
+void global_init() {
+}
 int main() {
-    write(STDOUT_FILENO, "good morning world\n", 19);
+    global_init();
+    while (1) {
+        global_update();
+    }
 }
