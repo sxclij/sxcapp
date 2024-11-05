@@ -5,9 +5,13 @@ enum bool {
     true = 1,
 };
 
+void sxcscript_init() {
+
+}
 void global_update() {
 }
 void global_init() {
+    sxcscript_init();
 }
 int main() {
     global_init();
