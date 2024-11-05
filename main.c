@@ -1,5 +1,5 @@
 #include <unistd.h>
 
 int main() {
-    write("good morning world\n", 19);
+    write(STDOUT_FILENO, "good morning world\n", 19);
 }
