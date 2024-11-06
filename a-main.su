@@ -1,0 +1,5 @@
+./main.c:67:6:sxcscript_run	16	static
+./main.c:69:6:sxcscript_init	52428848	static
+./main.c:78:6:global_run	24	static
+./main.c:81:6:global_init	64	static
+./main.c:86:5:main	16	static

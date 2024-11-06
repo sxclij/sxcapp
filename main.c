@@ -3,8 +3,8 @@
 
 #define sxcapp_stacksize (128 * 1024 * 1024)
 #define sxcscript_path "data.txt"
-#define sxcscript_mem_capacity (1 << 18)
-#define sxcscript_compile_capacity (1 << 18)
+#define sxcscript_mem_capacity (16 * 1024 * 1024)
+#define sxcscript_compile_capacity (16 * 1024 * 1024)
 
 enum bool {
     false = 0,
@@ -75,16 +75,16 @@ void sxcscript_init(union sxcscript_mem* mem) {
     union sxcscript_mem* inst_begin;
     union sxcscript_mem* data_begin;
 }
-void global_run(union sxcscript_mem* mem) {
+void sxcscript() {
+    static union sxcscript_mem mem[sxcscript_mem_capacity];
+    sxcscript_init(mem);
     sxcscript_run(mem);
 }
-void global_init(union sxcscript_mem* mem) {
+void init() {
     struct rlimit rlim = (struct rlimit){.rlim_cur = sxcapp_stacksize, .rlim_max = sxcapp_stacksize};
     setrlimit(RLIMIT_STACK, &rlim);
-    sxcscript_init(mem);
 }
 int main() {
-    static union sxcscript_mem mem[sxcscript_mem_capacity];
-    global_init(mem);
-    global_run(mem);
+    init();
+    sxcscript();
 }
