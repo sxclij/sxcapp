@@ -71,7 +71,6 @@ struct sxcscript {
     union sxcscript_mem* global_begin;
     union sxcscript_mem* inst_begin;
     union sxcscript_mem* data_begin;
-    int label_size;
 };
 
 void global_update() {
