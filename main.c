@@ -1,10 +1,11 @@
+#include <fcntl.h>
 #include <sys/resource.h>
 #include <unistd.h>
 
 #define sxcapp_stacksize (128 * 1024 * 1024)
 #define sxcscript_path "data.txt"
 #define sxcscript_mem_capacity (16 * 1024 * 1024)
-#define sxcscript_compile_capacity (16 * 1024 * 1024)
+#define sxcscript_compile_capacity (2 * 1024)
 
 enum bool {
     false = 0,
@@ -66,7 +67,11 @@ union sxcscript_mem {
 
 void sxcscript_run(union sxcscript_mem* mem) {
 }
-void sxcscript_readfile(char* src) {
+void sxcscript_readfile(char* dst) {
+    int fd = open(sxcscript_path, O_RDONLY);
+    int n = read(fd, dst, sxcscript_compile_capacity);
+    dst[n] = '\0';
+    close(fd);
 }
 void sxcscript_tokenize(char* src, struct sxcscript_token* token) {
 }
@@ -76,9 +81,9 @@ void sxcscript_link(struct sxcscript_node* node, struct sxcscript_label* label, 
 }
 void sxcscript_init(union sxcscript_mem* mem) {
     char src[sxcscript_compile_capacity];
-    struct sxcscript_token token[sxcscript_compile_capacity];
-    struct sxcscript_node node[sxcscript_compile_capacity];
-    struct sxcscript_label label[sxcscript_compile_capacity];
+    struct sxcscript_token token[sxcscript_compile_capacity / sizeof(struct sxcscript_token)];
+    struct sxcscript_node node[sxcscript_compile_capacity / sizeof(struct sxcscript_node)];
+    struct sxcscript_label label[sxcscript_compile_capacity / sizeof(struct sxcscript_label)];
     union sxcscript_mem* global_begin;
     union sxcscript_mem* inst_begin;
     union sxcscript_mem* data_begin;
