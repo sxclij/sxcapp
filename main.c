@@ -73,13 +73,5 @@ struct sxcscript {
     union sxcscript_mem* data_begin;
 };
 
-void global_update() {
-}
-void global_init() {
-}
 int main() {
-    global_init();
-    while (1) {
-        global_update();
-    }
 }
