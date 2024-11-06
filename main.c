@@ -72,6 +72,8 @@ void sxcscript_tokenize(char* src, struct sxcscript_token* token) {
 }
 void sxcscript_parse(struct sxcscript_token* token, struct sxcscript_node* node, struct sxcscript_label* label) {
 }
+void sxcscript_link(struct sxcscript_node* node, struct sxcscript_label* label, union sxcscript_mem* mem) {
+}
 void sxcscript_init(union sxcscript_mem* mem) {
     char src[sxcscript_compile_capacity];
     struct sxcscript_token token[sxcscript_compile_capacity];
@@ -83,6 +85,7 @@ void sxcscript_init(union sxcscript_mem* mem) {
     sxcscript_readfile(src);
     sxcscript_tokenize(src, token);
     sxcscript_parse(token, node, label);
+    sxcscript_link(node, label, mem);
 }
 void sxcscript() {
     static union sxcscript_mem mem[sxcscript_mem_capacity];
