@@ -63,11 +63,8 @@ union sxcscript_mem {
     enum sxcscript_kind kind;
     int val;
 };
-struct sxcapp {
-    union sxcscript_mem mem[sxcscript_mem_capacity];
-};
 
-void sxcscript_init() {
+void sxcscript_init(union sxcscript_mem* mem) {
     struct sxcscript_token token[sxcscript_compile_capacity];
     struct sxcscript_node node[sxcscript_compile_capacity];
     struct sxcscript_label label[sxcscript_compile_capacity];
@@ -75,13 +72,17 @@ void sxcscript_init() {
     union sxcscript_mem* inst_begin;
     union sxcscript_mem* data_begin;
 }
-void global_init() {
+void sxcscript_run(union sxcscript_mem* mem) {
+    
+}
+void global_init(union sxcscript_mem* mem) {
     struct rlimit rlim = (struct rlimit){.rlim_cur = sxcapp_stacksize, .rlim_max = sxcapp_stacksize};
     setrlimit(RLIMIT_STACK, &rlim);
-    sxcscript_init();
+    sxcscript_init(mem);
 }
 
 int main() {
-    static struct sxcapp sxcapp;
-    global_init();
+    static union sxcscript_mem mem[sxcscript_mem_capacity];
+    global_init(mem);
+    sxcscript_run(mem);
 }
