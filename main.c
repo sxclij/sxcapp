@@ -66,6 +66,10 @@ union sxcscript_mem {
 
 void sxcscript_run(union sxcscript_mem* mem) {
 }
+void sxcscript_readfile(char* src) {
+}
+void sxcscript_tokenize(char* src, struct sxcscript_token* token) {
+}
 void sxcscript_init(union sxcscript_mem* mem) {
     char src[sxcscript_compile_capacity];
     struct sxcscript_token token[sxcscript_compile_capacity];
@@ -74,6 +78,8 @@ void sxcscript_init(union sxcscript_mem* mem) {
     union sxcscript_mem* global_begin;
     union sxcscript_mem* inst_begin;
     union sxcscript_mem* data_begin;
+    sxcscript_readfile(src);
+    sxcscript_tokenize(src, token);
 }
 void sxcscript() {
     static union sxcscript_mem mem[sxcscript_mem_capacity];
