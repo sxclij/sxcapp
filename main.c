@@ -1,7 +1,7 @@
 #include <sys/resource.h>
 #include <unistd.h>
 
-#define sxcapp_stacksize (1 << 21)
+#define sxcapp_stacksize (128 * 1024 * 1024)
 #define sxcscript_path "data.txt"
 #define sxcscript_mem_capacity (1 << 16)
 #define sxcscript_compile_capacity (1 << 16)
