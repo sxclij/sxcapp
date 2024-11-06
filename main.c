@@ -74,6 +74,24 @@ void sxcscript_readfile(char* dst) {
     close(fd);
 }
 void sxcscript_tokenize(char* src, struct sxcscript_token* token) {
+    struct sxcscript_token* token_itr = token;
+    struct sxcscript_token token_this = {.data = src, .size = 0};
+    for (char* itr = src; *itr != '\0'; itr++) {
+        if (*itr == ' ' || *itr == '\n') {
+            if (token_this.size > 0) {
+                *(token_itr++) = token_this;
+            }
+            token_this = (struct sxcscript_token){.data = itr + 1, .size = 0};
+        } else if (*itr == ',' || *itr == '(' || *itr == ')') {
+            if (token_this.size > 0) {
+                *(token_itr++) = token_this;
+            }
+            *(token_itr++) = (struct sxcscript_token){.data = itr, .size = 1};
+            token_this = (struct sxcscript_token){.data = itr + 1, .size = 0};
+        } else {
+            token_this.size++;
+        }
+    }
 }
 void sxcscript_parse(struct sxcscript_token* token, struct sxcscript_node* node, struct sxcscript_label* label) {
 }
