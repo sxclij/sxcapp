@@ -1,5 +1,7 @@
+#include <sys/resource.h>
 #include <unistd.h>
 
+#define sxcapp_stacksize (1 << 21)
 #define sxcscript_path "data.txt"
 #define sxcscript_mem_capacity (1 << 16)
 #define sxcscript_compile_capacity (1 << 16)
@@ -65,13 +67,27 @@ union sxcscript_mem {
 };
 struct sxcscript {
     union sxcscript_mem mem[sxcscript_mem_capacity];
+};
+struct sxcapp {
+    struct sxcscript sxcscript;
+};
+
+void sxcscript_init() {
     struct sxcscript_token token[sxcscript_compile_capacity];
     struct sxcscript_node node[sxcscript_compile_capacity];
     struct sxcscript_label label[sxcscript_compile_capacity];
     union sxcscript_mem* global_begin;
     union sxcscript_mem* inst_begin;
     union sxcscript_mem* data_begin;
-};
+}
+void global_init() {
+    struct rlimit rlim = (struct rlimit){.rlim_cur = sxcapp_stacksize, .rlim_max = sxcapp_stacksize};
+    setrlimit(RLIMIT_STACK, &rlim);
+    sxcscript_init();
+}
 
 int main() {
+    global_init();
+    while (1) {
+    }
 }
