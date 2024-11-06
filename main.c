@@ -5,8 +5,6 @@
 #define sxcscript_path "data.txt"
 #define sxcscript_mem_capacity (1 << 16)
 #define sxcscript_compile_capacity (1 << 16)
-#define sxcscript_buf_capacity (1 << 10)
-#define sxcscript_global_capacity (1 << 8)
 
 enum bool {
     false = 0,
@@ -84,5 +82,6 @@ void global_init() {
 }
 
 int main() {
+    static struct sxcapp sxcapp;
     global_init();
 }
