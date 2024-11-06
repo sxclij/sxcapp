@@ -65,11 +65,8 @@ union sxcscript_mem {
     enum sxcscript_kind kind;
     int val;
 };
-struct sxcscript {
-    union sxcscript_mem mem[sxcscript_mem_capacity];
-};
 struct sxcapp {
-    struct sxcscript sxcscript;
+    union sxcscript_mem mem[sxcscript_mem_capacity];
 };
 
 void sxcscript_init() {
@@ -88,6 +85,4 @@ void global_init() {
 
 int main() {
     global_init();
-    while (1) {
-    }
 }
