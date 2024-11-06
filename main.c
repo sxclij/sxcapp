@@ -67,6 +67,7 @@ union sxcscript_mem {
 void sxcscript_run(union sxcscript_mem* mem) {
 }
 void sxcscript_init(union sxcscript_mem* mem) {
+    char src[sxcscript_compile_capacity];
     struct sxcscript_token token[sxcscript_compile_capacity];
     struct sxcscript_node node[sxcscript_compile_capacity];
     struct sxcscript_label label[sxcscript_compile_capacity];
