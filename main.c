@@ -3,8 +3,8 @@
 
 #define sxcapp_stacksize (128 * 1024 * 1024)
 #define sxcscript_path "data.txt"
-#define sxcscript_mem_capacity (1 << 16)
-#define sxcscript_compile_capacity (1 << 16)
+#define sxcscript_mem_capacity (1 << 18)
+#define sxcscript_compile_capacity (1 << 18)
 
 enum bool {
     false = 0,
