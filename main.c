@@ -97,6 +97,12 @@ void sxcscript_tokenize(char* src, struct sxcscript_token* token) {
 void sxcscript_parse_expr(struct sxcscript_token** token_itr, struct sxcscript_node** node_itr, struct sxcscript_label** label_itr) {
 }
 void sxcscript_parse(struct sxcscript_token* token, struct sxcscript_node* node, struct sxcscript_label* label) {
+    struct sxcscript_token* token_itr = token;
+    struct sxcscript_node* node_itr = node;
+    struct sxcscript_label* label_itr = label;
+    while (token_itr->data != NULL) {
+        sxcscript_parse_expr(&token_itr, &node_itr, &label_itr);
+    }
 }
 void sxcscript_link(struct sxcscript_node* node, struct sxcscript_label* label, union sxcscript_mem* mem) {
 }
