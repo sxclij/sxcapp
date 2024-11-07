@@ -116,20 +116,20 @@ void sxcscript_tokenize(char* src, struct sxcscript_token* token) {
 void sxcscript_parse_push(struct sxcscript_node** node_itr, enum sxcscript_kind kind, struct sxcscript_token* token, int val) {
     *((*node_itr)++) = (struct sxcscript_node){.kind = kind, .token = token, .val = val};
 }
-void sxcscript_parse_expr(struct sxcscript_token** token_itr, struct sxcscript_node** node_itr, struct sxcscript_label** label_itr) {
+void sxcscript_parse_expr(struct sxcscript_token** token_itr, struct sxcscript_node** node_itr, struct sxcscript_label** label_itr, struct sxcscript_label* label, int break_i, int continue_i) {
     if (sxcscript_token_iseq_str(*token_itr, "(")) {
         (*token_itr)++;
         while (!sxcscript_token_iseq_str(*token_itr, ")")) {
-            sxcscript_parse_expr(token_itr, node_itr, label_itr);
+            sxcscript_parse_expr(token_itr, node_itr, label_itr, label, break_i, continue_i);
             if (sxcscript_token_iseq_str(*token_itr, ",")) {
                 (*token_itr)++;
             }
         }
         (*token_itr)++;
-    } else if (sxcscript_token_iseq_str((*token_itr) + 1, "(")) {
+    } else if (sxcscript_token_iseq_str(*token_itr + 1, "(")) {
         struct sxcscript_token* token_this = *token_itr;
         (*token_itr)++;
-        sxcscript_parse_expr(token_itr, node_itr, label_itr);
+        sxcscript_parse_expr(token_itr, node_itr, label_itr, label, break_i, continue_i);
         sxcscript_parse_push(node_itr, sxcscript_kind_call, token_this, 0);
     } else {
         sxcscript_parse_push(node_itr, sxcscript_kind_const_get, *token_itr, 0);
@@ -141,7 +141,7 @@ void sxcscript_parse(struct sxcscript_token* token, struct sxcscript_node* node,
     struct sxcscript_node* node_itr = node;
     struct sxcscript_label* label_itr = label;
     while (token_itr->data != NULL) {
-        sxcscript_parse_expr(&token_itr, &node_itr, &label_itr);
+        sxcscript_parse_expr(&token_itr, &node_itr, &label_itr, label, -1, -1);
     }
 }
 void sxcscript_link(struct sxcscript_node* node, struct sxcscript_label* label, union sxcscript_mem* mem) {
