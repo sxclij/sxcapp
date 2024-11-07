@@ -65,6 +65,17 @@ union sxcscript_mem {
     int val;
 };
 
+enum bool sxcscript_token_iseq(struct sxcscript_token* a, struct sxcscript_token* b) {
+    if (a->size != b->size) {
+        return false;
+    }
+    for (int i = 0; i < a->size; i++) {
+        if (a->data[i] != b->data[i]) {
+            return false;
+        }
+    }
+    return true;
+}
 void sxcscript_run(union sxcscript_mem* mem) {
 }
 void sxcscript_readfile(char* dst) {
