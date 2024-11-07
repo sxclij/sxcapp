@@ -76,6 +76,14 @@ enum bool sxcscript_token_iseq(struct sxcscript_token* a, struct sxcscript_token
     }
     return true;
 }
+enum bool sxcscript_token_iseq_str(struct sxcscript_token* a, const char* str) {
+    int str_size = 0;
+    while (str[str_size] != '\0') {
+        str_size++;
+    }
+    struct sxcscript_token b = {.data = str, .size = str_size};
+    return sxcscript_token_iseq(a, &b);
+}
 void sxcscript_run(union sxcscript_mem* mem) {
 }
 void sxcscript_readfile(char* dst) {
