@@ -114,6 +114,24 @@ void sxcscript_tokenize(char* src, struct sxcscript_token* token) {
     *(token_itr++) = (struct sxcscript_token){.data = NULL, .size = 0};
 }
 void sxcscript_parse_expr(struct sxcscript_token** token_itr, struct sxcscript_node** node_itr, struct sxcscript_label** label_itr) {
+    if (sxcscript_token_iseq_str(*token_itr, "(")) {
+        (*token_itr)++;
+        while (!sxcscript_token_iseq_str(*token_itr, ")")) {
+            sxcscript_parse_expr(token_itr, node_itr, label_itr);
+            if (sxcscript_token_iseq_str(*token_itr, ",")) {
+                (*token_itr)++;
+            }
+        }
+        (*token_itr)++;
+    } else if (sxcscript_token_iseq_str((*token_itr) + 1, "(")) {
+        struct sxcscript_token* token_this = *token_itr;
+        (*token_itr)++;
+        sxcscript_parse_expr(token_itr, node_itr, label_itr);
+        sxcscript_parse_push(sxcscript_kind_call, token_this);
+    } else {
+        sxcscript_parse_push(sxcscript_kind_const_get, *token_itr);
+        (*token_itr)++;
+    }
 }
 void sxcscript_parse(struct sxcscript_token* token, struct sxcscript_node* node, struct sxcscript_label* label) {
     struct sxcscript_token* token_itr = token;
