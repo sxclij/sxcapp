@@ -132,6 +132,7 @@ void sxcscript_parse_expr(struct sxcscript_token** token_itr, struct sxcscript_n
         sxcscript_parse_expr(token_itr, node_itr, label_itr, label, break_i, continue_i);
         sxcscript_parse_push(node_itr, sxcscript_kind_call, token_this, 0);
     } else {
+        sxcscript_parse_push(node_itr, sxcscript_kind_nop, *token_itr, 0);
         sxcscript_parse_push(node_itr, sxcscript_kind_const_get, *token_itr, 0);
         (*token_itr)++;
     }
