@@ -158,6 +158,7 @@ void sxcscript_init(union sxcscript_mem* mem) {
     sxcscript_readfile(src);
     sxcscript_tokenize(src, token);
     sxcscript_parse(token, node, label);
+    sxcscript_analyze(node);
     sxcscript_link(node, label, mem);
 }
 void sxcscript() {
